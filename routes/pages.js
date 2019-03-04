@@ -55,7 +55,8 @@ module.exports = function(app) {
     request(options, (err, response, body) => {
       if (err) res.send(err);
       res.render('thread', {
-        post: JSON.parse(body),
+        // For some reason heroku returns this inside a pair of []
+        post: JSON.parse(body)[0],
         board: board,
         threadId: threadId
       });
