@@ -1,3 +1,3 @@
 # MyBoard
 
-Message Board using Node, Express, MongoDB, EJS, jQuery, HTML, and CSS. 
+Message Board web app using Node, Express, MongoDB, EJS, jQuery, HTML, and CSS. 
