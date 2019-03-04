@@ -50,7 +50,9 @@ $(function() {
       data: $(this).serialize(),
       success: function(data) {
         alert(data);
-        window.location.href = '/b/' + currentBoard;
+        if (data === 'Successfully Deleted!') {
+          window.location.href = '/b/' + currentBoard;
+        }
       }
     });
     e.preventDefault();

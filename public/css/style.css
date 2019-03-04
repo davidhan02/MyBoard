@@ -46,6 +46,15 @@ h1, h2, h3, h4, h5, h6 {
   margin-left: 10px;
 }
 
+.login-btn {
+  float: right;
+  margin-bottom: 20px;
+}
+
+.register-btn {
+  float: right;
+}
+
 /* Form Styles */
 
 .form-control {
@@ -80,6 +89,7 @@ h1, h2, h3, h4, h5, h6 {
 /* Title Section */
 
 /* Title Row */
+
 #title {
   text-align: left;
 }
@@ -98,7 +108,15 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 1px 1px 10px;
 }
 
+/* Login and Register */
+
+.login-form label, .register-form label {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
 /* Board Display Section */
+
 #board-display.container-fluid {
   padding: 0 15%;
 }
