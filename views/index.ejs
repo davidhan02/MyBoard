@@ -66,7 +66,7 @@
           <% if (hiddenCount < 1) { hiddenCount = 0 }; %>
           <h5 class="reply-count">
             <%= ele.replycount %> replies total (<%= hiddenCount %> hidden) -
-            <a href="<%= board %>/<%= ele._id %>">Login to see full thread</a>.
+            <a href="/b/<%= board %>/<%= ele._id %>">Login to see full thread</a>.
           </h5>
           <% ele.replies.forEach(function(rep) { %>
             <div class="reply">

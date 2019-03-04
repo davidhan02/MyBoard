@@ -1,5 +1,3 @@
-const MongoClient = require('mongodb').MongoClient;
-const ObjectId = require('mongodb').ObjectID;
 const request = require('request');
 
 module.exports = function(app) {
@@ -22,7 +20,7 @@ module.exports = function(app) {
     });
   });
 
-  app.route('/:board/')
+  app.route('/b/:board/')
   .get( (req, res) => {
     const board = req.params.board;
     const options = {
@@ -40,7 +38,7 @@ module.exports = function(app) {
     })
   });
 
-  app.route('/:board/:threadId')
+  app.route('/b/:board/:threadId')
   .get( (req, res) => {
     const board = req.params.board;
     const threadId = req.params.threadId;

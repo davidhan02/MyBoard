@@ -1,4 +1,3 @@
-const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectID;
 
 module.exports = function(app, db) {
@@ -55,7 +54,7 @@ module.exports = function(app, db) {
       db.collection(board).insertOne(thread, (err, result) => {
         if (err) res.send(err);
         //Redirect after insertion
-        res.redirect('/' + board);
+        res.redirect('/b/' + board);
       });
     })
 
@@ -146,7 +145,7 @@ module.exports = function(app, db) {
             res.send(err);
           } else {
             // Redirect to thread page to see replies (jQuery stops this default)
-            res.redirect('/' + board + '/' + req.body.thread_id);
+            res.redirect('/b/' + board + '/' + req.body.thread_id);
           }
         });
     })

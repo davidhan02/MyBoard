@@ -50,7 +50,7 @@ $(function() {
       data: $(this).serialize(),
       success: function(data) {
         alert(data);
-        window.location.href = '/' + currentBoard;
+        window.location.href = '/b/' + currentBoard;
       }
     });
     e.preventDefault();
