@@ -1,0 +1,208 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Poppins;
+  text-align: center;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+/* Headings */
+
+.big-heading {
+  font-weight: 700;
+  font-size: 3.5rem;
+  line-height: 1.5;
+}
+
+/* Containers */
+
+.container-fluid{
+  padding: 4% 15%;
+}
+
+/* Sections Color */
+
+.colored {
+  background-color: #555;
+  color: #fff;
+}
+
+.white {
+  background-color: #fff;
+}
+
+/* Buttons */
+
+.download-button {
+  margin: 5% 3% 5% 0;
+}
+
+.btn {
+  margin-left: 10px;
+}
+
+/* Form Styles */
+
+.form-control {
+  margin-bottom: 0;
+}
+
+/* Navigation Bar */
+
+#navbar.container-fluid {
+  padding: 2% 15%;
+}
+
+.navbar {
+  padding: 0;
+}
+
+.navbar-brand {
+  font-family: "Ubuntu";
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.nav-item {
+  padding: 0 18px;
+}
+
+.nav-link {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+/* Title Section */
+
+/* Title Row */
+#title {
+  text-align: left;
+}
+
+#title .row {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Title Image */
+
+.title-image {
+  width: 75%;
+  transform: rotate(5deg);
+  border-radius: 8px;
+  box-shadow: 1px 1px 10px;
+}
+
+/* Board Display Section */
+#board-display.container-fluid {
+  padding: 0 15%;
+}
+
+/* Thread Start */
+
+.thread {
+  margin: 0 0 40px;
+  padding: 0;
+  border-left: 5px solid grey;
+  border-top: 5px solid grey;
+  border-radius: 5px;
+  text-align: left;
+
+}
+
+/* Thread Top */
+
+.top {
+  display: flex;
+  color: #000;
+  border-radius: 5px;
+  padding-top: 10px;
+}
+
+.report-form {
+  margin: auto 10px;
+}
+
+.report-form .btn {
+  margin-left: 0;
+}
+
+.id {
+  font-size: .8em;
+  margin: auto auto auto 0;
+}
+
+.delete-form {
+  margin-right: 10px;
+}
+
+/* Thread Post */
+
+.thread .post-text {
+  padding: 0;
+  margin: 15px;
+}
+
+/* Thread Replies */
+
+.replies {
+  padding: 0 10px 10px;
+}
+
+.reply-count {
+  color: grey;
+  margin: 7px;
+  padding: 0;
+  font-size: .9rem;
+}
+
+.reply {
+  border-left: 5px solid grey;
+  border-radius: 5px;
+  margin: 10px 5px;
+  padding: 0px;
+  background-color: lightgrey;
+}
+
+.reply p {
+  padding: 15px;
+}
+
+/* New Reply */
+
+.new-reply {
+  margin: 10px 5px;
+}
+
+.submit-line {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Footer Section */
+
+.social-icon {
+  margin: 20px 10px;
+}
+
+/* Media Queries */
+
+@media (max-width: 1028px) {
+
+  #title {
+    text-align: center;
+  }
+
+  .title-image {
+    position: static;
+    width: 90%;
+    transform: rotate(0);
+  }
+}

@@ -1,0 +1,100 @@
+<%- include('partials/header') -%>
+
+<!-- Hidden input to pass board name to jQuery script -->
+<input type="hidden" id="board-hidden" value="<%= board %>">
+
+<section id="board-header" class="container-fluid">
+
+  <header>
+    <h1 id="boardTitle">Welcome to the <%= board %> board</h1>
+  </header>
+
+  <div id="submitNewThread">
+    <h3>Submit a new thread:</h3>
+    <form id="newThread" method="post">
+
+      <textarea rows="5" class="form-control" type="text" placeholder="Thread text..." name="text" required=""></textarea>
+      <div class="submit-line form-inline">
+        <input class="form-control" type="text" placeholder="password to delete" name="delete_password" required="" autocomplete="off">
+        <input class="btn btn-primary btn-lg submit-button" type="submit" value="Submit">
+      </div>
+    </form>
+  </div>
+
+</section>
+
+<section id="board-display" class="container-fluid">
+
+  <!-- Loop through each post and post this template for contents -->
+  <% posts.forEach(function(ele) { %>
+    <div class="thread">
+
+      <div class="main">
+        <!-- Top -->
+        <div class="top">
+          <form id="reportThread" class="report-form">
+            <!-- Hidden ID Value for Report -->
+            <input type="hidden" name="report_id" value="<%= ele._id %>">
+            <input class="btn btn-secondary btn-sm" type="submit" value="Report">
+          </form>
+          <div class="id">
+            ID: <%= ele._id %> (<%= ele.created_on %>)
+          </div>
+          <form id="deleteThread" class="form-inline delete-form">
+            <!-- Hidden ID Value for Delete -->
+            <input type="hidden" name="thread_id" value="<%= ele._id %>" required="">
+            <input class="form-control form-control-sm" type="text" name="delete_password" placeholder="Password" required="" />
+            <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+          </form>
+        </div>
+        <!-- Post Text Here -->
+        <h3 class="post-text"><%= ele.text %></h3>
+      </div>
+
+      <!-- Replies Start Here -->
+      <div class="replies">
+        <% let hiddenCount = ele.replycount - 3; %>
+        <% if (hiddenCount < 1) { hiddenCount = 0 }; %>
+        <h5 class="reply-count">
+          <%= ele.replycount %> replies total (<%= hiddenCount %> hidden) -
+          <a href="<%= board %>/<%= ele._id %>">See the full thread here</a>.
+        </h5>
+        <% ele.replies.forEach(function(rep) { %>
+          <div class="reply">
+            <div class="top">
+              <form id="reportReply" class="report-form">
+                <!-- Hidden Thread & Reply ID Value for Report Reply -->
+                <input type="hidden" name="thread_id" value="<%= ele._id %>">
+                <input type="hidden" name="reply_id" value="<%= rep._id %>">
+                <input class="btn btn-secondary btn-sm" type="submit" value="Report">
+              </form>
+              <div class="id">
+                ID: <%= rep._id %> (<%= rep.created_on %>)
+              </div>
+              <form id="deleteReply" class="form-inline delete-form">
+                <!-- Hidden Thread & Reply ID Value for Delete Reply -->
+                <input type="hidden" name="thread_id" value="<%= ele._id %>" required="">
+                <input type="hidden" name="reply_id" value="<%= rep._id %>" required="">
+                <input class="form-control form-control-sm" type="text" placeholder="Password" name="delete_password" required="">
+                <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+              </form>
+            </div>
+            <p><%= rep.text %></p>
+          </div>
+        <% }); %>
+        <div class="new-reply">
+          <form id="newReply">
+            <input type="hidden" name="thread_id" value="<%= ele._id %>">
+            <textarea class="form-control" type="text" placeholder="Quick reply..." name="text" required=""></textarea>
+            <div class="submit-line form-inline">
+              <input class="form-control form-control-sm" type="text" placeholder="Password to delete" name="delete_password" required="" autocomplete="off">
+              <input class="btn btn-primary btn-sm" type="submit" value="Submit">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  <% }); %>
+</section>
+
+<%- include('partials/footer') -%>

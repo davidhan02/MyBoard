@@ -1,0 +1,97 @@
+<%- include('partials/header') -%>
+
+<!-- Hidden input to pass board name to jQuery script -->
+<input type="hidden" id="board-hidden" value="<%= board %>">
+
+  <section id="title" class="colored container-fluid">
+
+    <!-- Title -->
+
+      <div class="row">
+
+        <div class="col-lg-6">
+          <h1 class="big-heading">Start a new and interesting discussion.</h1>
+          <button type="button" class="btn btn-dark btn-lg download-button"><i class="fab fa-apple"></i> Register</button>
+          <button type="button" class="btn btn-info btn-lg download-button"><i class="fab fa-google-play"></i> About Us</button>
+        </div>
+
+        <div class="col-lg-6">
+          <img class="title-image" src="images/enter-photo.jpg" alt="people-talking">
+        </div>
+
+      </div>
+
+  </section>
+
+  <section id="board-header" class="container-fluid">
+
+    <header>
+      <h1 id="boardTitle">A quick look at the <%= board %> board:</h1>
+    </header>
+
+
+  </section>
+
+  <section id="board-display" class="container-fluid">
+
+    <!-- Loop through each post and post this template for contents -->
+    <% posts.forEach(function(ele) { %>
+      <div class="thread">
+
+        <div class="main">
+          <!-- Top -->
+          <div class="top">
+            <form id="reportThread" class="report-form">
+              <!-- Hidden ID Value for Report -->
+              <input type="hidden" name="report_id" value="<%= ele._id %>">
+              <input class="btn btn-secondary btn-sm" type="submit" value="Report">
+            </form>
+            <div class="id">
+              ID: <%= ele._id %> (<%= ele.created_on %>)
+            </div>
+            <form id="deleteThread" class="form-inline delete-form">
+              <!-- Hidden ID Value for Delete -->
+              <input type="hidden" name="thread_id" value="<%= ele._id %>" required="">
+              <input class="form-control form-control-sm" type="text" name="delete_password" placeholder="Login to delete" required="" disabled>
+              <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+            </form>
+          </div>
+          <!-- Post Text Here -->
+          <h3 class="post-text"><%= ele.text %></h3>
+        </div>
+
+        <!-- Replies Start Here -->
+        <div class="replies">
+          <% let hiddenCount = ele.replycount - 3; %>
+          <% if (hiddenCount < 1) { hiddenCount = 0 }; %>
+          <h5 class="reply-count">
+            <%= ele.replycount %> replies total (<%= hiddenCount %> hidden) -
+            <a href="<%= board %>/<%= ele._id %>">Login to see full thread</a>.
+          </h5>
+          <% ele.replies.forEach(function(rep) { %>
+            <div class="reply">
+              <div class="top">
+                <form id="reportReply" class="report-form">
+                  <input type="hidden" name="thread_id" value="<%= ele._id %>">
+                  <input type="hidden" name="reply_id" value="<%= rep._id %>">
+                  <input class="btn btn-secondary btn-sm" type="submit" value="Report">
+                </form>
+                <div class="id">
+                  ID: <%= rep._id %> (<%= rep.created_on %>)
+                </div>
+                <form id="deleteReply" class="form-inline delete-form">
+                  <input type="hidden" name="thread_id" value="<%= ele._id %>" required="">
+                  <input type="hidden" name="reply_id" value="<%= rep._id %>" required="">
+                  <input class="form-control form-control-sm" type="text" placeholder="Login to delete" name="delete_password" required="" disabled>
+                  <input class="btn btn-danger btn-sm" type="submit" value="Delete">
+                </form>
+              </div>
+              <p><%= rep.text %></p>
+            </div>
+          <% }); %>
+          </div>
+        </div>
+    <% }); %>
+  </section>
+
+<%- include('partials/footer') -%>
