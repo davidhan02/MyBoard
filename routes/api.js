@@ -191,7 +191,7 @@ module.exports = function(app, db) {
           } else if (result.value === null) {
             res.send('Incorrect password');
           } else {
-            res.send('Success');
+            res.send('Successfully Deleted!');
           }
         });
     });

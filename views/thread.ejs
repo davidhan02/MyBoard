@@ -28,7 +28,7 @@
         <form id="deleteThread" class="form-inline delete-form">
           <!-- Hidden ID Value for Delete -->
           <input type="hidden" name="thread_id" value="<%= post._id %>" required="">
-          <input class="form-control form-control-sm" type="text" name="delete_password" placeholder="password" required="" />
+          <input class="form-control form-control-sm" type="password" name="delete_password" placeholder="Password" required="">
           <input class="btn btn-danger btn-sm" type="submit" value="Delete">
         </form>
       </div>
@@ -52,7 +52,7 @@
             <form id="deleteReply" class="form-inline delete-form">
               <input type="hidden" name="thread_id" value="<%= post._id %>" required="">
               <input type="hidden" name="reply_id" value="<%= rep._id %>" required="">
-              <input class="form-control form-control-sm" type="text" placeholder="Password" name="delete_password" required="">
+              <input class="form-control form-control-sm" type="password" name="delete_password" placeholder="Password" required="">
               <input class="btn btn-danger btn-sm" type="submit" value="Delete">
             </form>
           </div>
@@ -64,7 +64,7 @@
           <input type="hidden" name="thread_id" value="<%= post._id %>">
           <textarea class="form-control" type="text" placeholder="Quick reply..." name="text" required=""></textarea>
           <div class="submit-line form-inline">
-            <input class="form-control form-control-sm" type="text" placeholder="Password to delete" name="delete_password" required="" autocomplete="off">
+            <input class="form-control form-control-sm" type="password" name="delete_password" placeholder="Password to delete" required="">
             <input class="btn btn-primary btn-sm" type="submit" value="Submit">
           </div>
         </form>

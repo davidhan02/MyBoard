@@ -15,7 +15,7 @@
 
       <textarea rows="5" class="form-control" type="text" placeholder="Thread text..." name="text" required=""></textarea>
       <div class="submit-line form-inline">
-        <input class="form-control" type="text" placeholder="password to delete" name="delete_password" required="" autocomplete="off">
+        <input class="form-control" type="password" placeholder="Password to delete" name="delete_password" required="">
         <input class="btn btn-primary btn-lg submit-button" type="submit" value="Submit">
       </div>
     </form>
@@ -43,7 +43,7 @@
           <form id="deleteThread" class="form-inline delete-form">
             <!-- Hidden ID Value for Delete -->
             <input type="hidden" name="thread_id" value="<%= ele._id %>" required="">
-            <input class="form-control form-control-sm" type="text" name="delete_password" placeholder="Password" required="" />
+            <input class="form-control form-control-sm" type="password" name="delete_password" placeholder="Password" required="">
             <input class="btn btn-danger btn-sm" type="submit" value="Delete">
           </form>
         </div>
@@ -75,7 +75,7 @@
                 <!-- Hidden Thread & Reply ID Value for Delete Reply -->
                 <input type="hidden" name="thread_id" value="<%= ele._id %>" required="">
                 <input type="hidden" name="reply_id" value="<%= rep._id %>" required="">
-                <input class="form-control form-control-sm" type="text" placeholder="Password" name="delete_password" required="">
+                <input class="form-control form-control-sm" type="password" name="delete_password" placeholder="Password" required="">
                 <input class="btn btn-danger btn-sm" type="submit" value="Delete">
               </form>
             </div>
@@ -87,7 +87,7 @@
             <input type="hidden" name="thread_id" value="<%= ele._id %>">
             <textarea class="form-control" type="text" placeholder="Quick reply..." name="text" required=""></textarea>
             <div class="submit-line form-inline">
-              <input class="form-control form-control-sm" type="text" placeholder="Password to delete" name="delete_password" required="" autocomplete="off">
+              <input class="form-control form-control-sm" type="password" placeholder="Password to delete" name="delete_password" required="">
               <input class="btn btn-primary btn-sm" type="submit" value="Submit">
             </div>
           </form>
