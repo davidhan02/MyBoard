@@ -8,7 +8,7 @@ module.exports = function(app) {
   .get( (req, res) => {
     const board = 'general';
     const options = {
-      baseUrl: 'https://davidhan-message-board.glitch.me',
+      baseUrl: 'https://nameless-refuge-84035.herokuapp.com',
       url: '/api/threads/' + board,
       method: 'GET'
     };
@@ -26,7 +26,7 @@ module.exports = function(app) {
   .get( (req, res) => {
     const board = req.params.board;
     const options = {
-      baseUrl: 'https://davidhan-message-board.glitch.me',
+      baseUrl: 'https://nameless-refuge-84035.herokuapp.com',
       url: '/api/threads/' + board,
       method: 'GET'
     };
@@ -45,7 +45,7 @@ module.exports = function(app) {
     const board = req.params.board;
     const threadId = req.params.threadId;
     const options = {
-      baseUrl: 'https://davidhan-message-board.glitch.me',
+      baseUrl: 'https://nameless-refuge-84035.herokuapp.com',
       url: '/api/replies/' + board,
       qs: {
         thread_id: threadId
