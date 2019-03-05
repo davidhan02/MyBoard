@@ -15,7 +15,25 @@ $(function() {
           alert(data);
           location.reload();
         } else {
-          window.location.href = '/b/' + $('input[name=username]').val();
+          window.location.href = '/b/' + $('input#login-input[name=username]').val();
+        }
+      }
+    });
+    e.preventDefault();
+  });
+
+  // Register Form
+  $('#register-form').submit(function(e) {
+    $.ajax({
+      method: "POST",
+      url: '/register',
+      data: $(this).serialize(),
+      success: function(data) {
+        if (data != 'Success') {
+          alert(data);
+          location.reload();
+        } else {
+          window.location.href = '/b/' + $('input#register-input[name=username]').val();
         }
       }
     });

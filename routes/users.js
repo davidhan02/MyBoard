@@ -48,7 +48,7 @@ module.exports = function(app, db) {
                 }, // asssigns hash to password
                 (err, doc) => {
                   if (err) {
-                    res.redirect('/');
+                    res.send('Error in adding user to database.');
                   } else {
                     next(null, user);
                   }
@@ -58,11 +58,12 @@ module.exports = function(app, db) {
           }
         })
       },
+      // Log in here then send success so jQuery can handle
       passport.authenticate('local', {
         failureRedirect: '/'
       }),
       (req, res, next) => {
-        res.redirect('/b/general');
+        res.send('Success');
       });
 
   // Upon logout, unauthenticate the user and redirect to the home page
