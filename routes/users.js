@@ -7,15 +7,24 @@ const list = 'MyBoardUsers';
 
 module.exports = function(app, db) {
 
-  // Log-in route
   app.route('/login')
-    // Apply authentication middleware and upon failure, redirect back to index
-    .post(passport.authenticate('local', {
-      failureRedirect: '/test'
-    }), (req, res) => {
-      // Redirect the user to /profile
-      res.redirect('/b/general');
-    });
+    .post( (req, res, next) => {
+      // Apply authentication middleware
+      passport.authenticate('local', (err, user, info) => {
+        if (err) { return next(err); }
+        // Upon failure, redirect back to index
+        if (!user) {
+          return res.redirect('/');
+        }
+        // Upon success, redirect to general page
+        req.logIn(user, function(err) {
+          if (err) {
+            return next(err);
+          }
+          return res.redirect('/b/' + user.username);
+        });
+      })(req, res, next);
+  });
 
   // Define route for registering new user
   app.route('/register')

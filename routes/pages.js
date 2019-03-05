@@ -10,11 +10,17 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/');
 };
 
-module.exports = function(app) {
+let pageMessage = '';
+
+module.exports = function(app, pageMessage) {
 
   app.route('/')
   .get( (req, res) => {
     const board = 'general';
+    let username = 'Log in first';
+    if (req.isAuthenticated()) {
+        username = req.user.username;
+    }
     const options = {
       baseUrl: 'https://nameless-refuge-84035.herokuapp.com',
       url: '/api/threads/' + board,
@@ -25,7 +31,9 @@ module.exports = function(app) {
       // Make sure you change the string to JSON object
       res.render('index', {
         posts: JSON.parse(body),
-        board: board
+        board: board,
+        message: pageMessage,
+        username: username
       });
     });
   });
@@ -43,7 +51,9 @@ module.exports = function(app) {
       // Make sure you change the string to JSON Object
       res.render('board', {
         posts: JSON.parse(body),
-        board: board
+        board: board,
+        message: pageMessage,
+        username: req.user.username
       });
     })
   });
@@ -66,7 +76,8 @@ module.exports = function(app) {
         // For some reason heroku returns this inside a pair of []
         post: JSON.parse(body)[0],
         board: board,
-        threadId: threadId
+        threadId: threadId,
+        username: req.user.username
       });
     });
   });

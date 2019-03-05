@@ -1,8 +1,8 @@
 require('dotenv').config()
-const apiRoutes = require('./routes/api.js');
-const userRoutes = require('./routes/users.js');
-const pageRoutes = require('./routes/pages.js');
-const auth = require('./routes/auth.js');
+const apiRoutes = require('./routes/api');
+const userRoutes = require('./routes/users');
+const pageRoutes = require('./routes/pages');
+const auth = require('./routes/auth');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -18,6 +18,7 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
+app.use(flash());
 
 MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
 
@@ -29,7 +30,7 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
 
   apiRoutes(app, db);
 
-  pageRoutes(app);
+  pageRoutes(app, pageMessage);
 
   const listener = app.listen(process.env.PORT || 3000, function() {
     console.log('Your app is listening on port ' + listener.address().port);
