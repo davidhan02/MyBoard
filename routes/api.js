@@ -1,4 +1,6 @@
 const ObjectId = require('mongodb').ObjectID;
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
+const bcrypt = require('bcrypt');
 
 module.exports = function(app, db) {
 
@@ -47,8 +49,8 @@ module.exports = function(app, db) {
         created_on: new Date(),
         bumped_on: new Date(),
         reported: false,
-        replies: [],
-        delete_password: req.body.delete_password
+        replies: [], // Use bcrypt below to hash the password
+        delete_password: bcrypt.hashSync(req.body.delete_password, saltRounds)
       };
       //Insert acts same as saving to db
       db.collection(board).insertOne(thread, (err, result) => {
@@ -78,21 +80,29 @@ module.exports = function(app, db) {
     //Delete a thread
     .delete( (req, res) => {
       let board = req.params.board,
-          id = new ObjectId(req.body.thread_id);
+          id = new ObjectId(req.body.thread_id),
+          inputPassword = req.body.delete_password;
 
-      //Use find and modify because of password
-      db.collection(board).findOneAndDelete(
-        {_id: id, // Query
-         delete_password: req.body.delete_password},
-        (err, result) => {
-          if (err) {
-            res.send(err);
-          } else if (result.value === null) {
-            res.send('Incorrect password');
-          } else {
-            res.send('Successfully Deleted!');
-          }
-        });
+      // Search through DB use bcrypt to compare passwords
+      db.collection(board).findOne(
+        {_id: id},
+        (err, post) => {
+          // Use of Asynchronous bcyrpt comparison
+          bcrypt.compare(inputPassword, post.delete_password, (err, result) => {
+              if (result === true) {
+                db.collection(board).findOneAndDelete({_id: id}, (err) => {
+                  if (err) {
+                    res.send(err);
+                  } else {
+                    res.send('Successfully Deleted!');
+                  }
+                })
+              } else if (result === false) {
+                res.send('Incorrect Password');
+              }
+          })
+        }
+      )
     });
 
   // Reply route handling
@@ -129,8 +139,8 @@ module.exports = function(app, db) {
         _id: new ObjectId(),
         text: req.body.text,
         created_on: new Date(),
-        reported: false,
-        delete_password: req.body.delete_password
+        reported: false, // Use bcrypt below to hash the password
+        delete_password: bcrypt.hashSync(req.body.delete_password, saltRounds)
       };
 
       // Adding replies to array in thread object in DB
@@ -175,25 +185,39 @@ module.exports = function(app, db) {
     // Delete a reply
     .delete( (req, res) => {
       let board = req.params.board,
+          inputPassword = req.body.delete_password,
           id = new ObjectId(req.body.thread_id),
           rep_id = new ObjectId(req.body.reply_id);
 
-      // Connect to DB, $set replies.$.text to [deleted]
-      db.collection(board).findOneAndUpdate(
+      // Search through DB use bcrypt to compare passwords
+      db.collection(board).findOne(
         {
           _id: id,
-          replies: {$elemMatch: {_id: rep_id, delete_password: req.body.delete_password}}
+          replies: {$elemMatch: {_id: rep_id}}
         },
-        {$set: {'replies.$.text': '[deleted]'}},
-        (err, result) => {
-          if (err) {
-            res.send(err);
-          } else if (result.value === null) {
-            res.send('Incorrect password');
-          } else {
-            res.send('Successfully Deleted!');
-          }
-        });
+        (err, post) => {
+          // Use of Asynchronous bcyrpt comparison
+          bcrypt.compare(inputPassword, post.replies[0].delete_password, (err, result) => {
+              if (result === true) {
+                db.collection(board).findOneAndUpdate(
+                  {
+                    _id: id,
+                    replies: {$elemMatch: {_id: rep_id}}
+                  },
+                  {$set: {'replies.$.text': '[deleted]'}},
+                  (err, result) => {
+                    if (err) {
+                      res.send(err);
+                    } else {
+                      res.send('Successfully Deleted!');
+                    }
+                  });
+              } else if (result === false) {
+                res.send('Incorrect Password');
+              }
+          })
+        }
+      )
     });
 
 }

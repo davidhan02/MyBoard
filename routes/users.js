@@ -1,5 +1,9 @@
 const passport = require('passport');
 const bcrypt = require('bcrypt');
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
+
+// DB collection
+const list = 'MyBoardUsers';
 
 module.exports = function(app, db) {
 
@@ -10,13 +14,13 @@ module.exports = function(app, db) {
       failureRedirect: '/test'
     }), (req, res) => {
       // Redirect the user to /profile
-      res.redirect('/general');
+      res.redirect('/b/general');
     });
 
   // Define route for registering new user
   app.route('/register')
     .post((req, res, next) => {
-        db.collection('users').findOne({
+        db.collection(list).findOne({
           username: req.body.username
         }, function(err, user) {
           if (err) {
@@ -24,20 +28,22 @@ module.exports = function(app, db) {
           } else if (user) { // if user exists already, redirect to homepage
             res.redirect('/');
           } else {
-            let hash = bcrypt.hashSync(req.body.password, 12); // encrypts the password with bcrypt
-            db.collection('users').insertOne( // insertOne adds object to db
-              {
-                username: req.body.username,
-                password: hash
-              }, // asssigns hash to password
-              (err, doc) => {
-                if (err) {
-                  res.redirect('/');
-                } else {
-                  next(null, user);
+            // Asynchronous hashing instead of Sync call
+            bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+              db.collection(list).insertOne( // insertOne adds object to db
+                {
+                  username: req.body.username,
+                  password: hash
+                }, // asssigns hash to password
+                (err, doc) => {
+                  if (err) {
+                    res.redirect('/');
+                  } else {
+                    next(null, user);
+                  }
                 }
-              }
-            )
+              )
+            })
           }
         })
       },
@@ -45,7 +51,7 @@ module.exports = function(app, db) {
         failureRedirect: '/'
       }),
       (req, res, next) => {
-        res.redirect('/general');
+        res.redirect('/b/general');
       });
 
   // Upon logout, unauthenticate the user and redirect to the home page
