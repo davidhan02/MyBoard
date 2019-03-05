@@ -10,7 +10,7 @@ $(function() {
   });
 
   // New Reply
-  $('#newReply').submit(function(e) {
+  $('#board-display').on('submit', '#newReply', function(e) {
     $.ajax({
       method: "POST",
       url: repliesUrl,

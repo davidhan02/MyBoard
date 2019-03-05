@@ -18,7 +18,6 @@ app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
-app.use(flash());
 
 MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
 
@@ -30,7 +29,7 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
 
   apiRoutes(app, db);
 
-  pageRoutes(app, pageMessage);
+  pageRoutes(app);
 
   const listener = app.listen(process.env.PORT || 3000, function() {
     console.log('Your app is listening on port ' + listener.address().port);
