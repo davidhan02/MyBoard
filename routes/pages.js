@@ -10,14 +10,12 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/');
 };
 
-let pageMessage = '';
-
-module.exports = function(app, pageMessage) {
+module.exports = function(app) {
 
   app.route('/')
   .get( (req, res) => {
     const board = 'general';
-    let username = 'Log in first';
+    let username = 'but log in first';
     if (req.isAuthenticated()) {
         username = req.user.username;
     }
@@ -32,7 +30,6 @@ module.exports = function(app, pageMessage) {
       res.render('index', {
         posts: JSON.parse(body),
         board: board,
-        message: pageMessage,
         username: username
       });
     });
@@ -41,6 +38,12 @@ module.exports = function(app, pageMessage) {
   app.route('/b/:board/')
   .get(ensureAuthenticated, (req, res) => {
     const board = req.params.board;
+
+    let welcomeMessage = '';
+    // If board is equal to username, then change the message
+    if (board === req.user.username) {
+      welcomeMessage = 'This is your own personal Board! '
+    }
     const options = {
       baseUrl: 'https://nameless-refuge-84035.herokuapp.com',
       url: '/api/threads/' + board,
@@ -52,7 +55,7 @@ module.exports = function(app, pageMessage) {
       res.render('board', {
         posts: JSON.parse(body),
         board: board,
-        message: pageMessage,
+        message: welcomeMessage,
         username: req.user.username
       });
     })

@@ -14,14 +14,16 @@ module.exports = function(app, db) {
         if (err) { return next(err); }
         // Upon failure, redirect back to index
         if (!user) {
-          return res.redirect('/');
+          // Sent as alert by jQuery
+          return res.send('Invalid Username or Password. Please Try again.');
         }
         // Upon success, redirect to general page
         req.logIn(user, function(err) {
           if (err) {
             return next(err);
           }
-          return res.redirect('/b/' + user.username);
+          // Prevented by jQuery script
+          return res.send('Success');
         });
       })(req, res, next);
   });
@@ -35,7 +37,7 @@ module.exports = function(app, db) {
           if (err) {
             next(err);
           } else if (user) { // if user exists already, redirect to homepage
-            res.redirect('/');
+            res.send('User already exists. Please try a different username.');
           } else {
             // Asynchronous hashing instead of Sync call
             bcrypt.hash(req.body.password, saltRounds, function(err, hash) {

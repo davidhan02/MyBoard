@@ -23,6 +23,8 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
 
   const db = client.db('fccprojects');
 
+  app.set('message', 'Not Logged in Yet');
+
   auth(app, db);
 
   userRoutes(app, db);
