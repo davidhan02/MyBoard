@@ -1,5 +1,6 @@
 require('dotenv').config()
 const apiRoutes = require('./routes/api.js');
+const userRoutes = require('./routes/users.js');
 const pageRoutes = require('./routes/pages.js');
 const auth = require('./routes/auth.js');
 
@@ -23,6 +24,8 @@ MongoClient.connect(url, {useNewUrlParser: true}, (err, client) => {
   const db = client.db('fccprojects');
 
   auth(app, db);
+
+  userRoutes(app, db);
 
   apiRoutes(app, db);
 

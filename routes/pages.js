@@ -1,4 +1,14 @@
 const request = require('request');
+const passport = require('passport');
+
+// Define function ensureAuthenticated
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+      return next();
+  }
+  // Redirect if not authenticated
+  res.redirect('/');
+};
 
 module.exports = function(app) {
 
@@ -21,7 +31,7 @@ module.exports = function(app) {
   });
 
   app.route('/b/:board/')
-  .get( (req, res) => {
+  .get(ensureAuthenticated, (req, res) => {
     const board = req.params.board;
     const options = {
       baseUrl: 'https://nameless-refuge-84035.herokuapp.com',
@@ -39,7 +49,7 @@ module.exports = function(app) {
   });
 
   app.route('/b/:board/:threadId')
-  .get( (req, res) => {
+  .get(ensureAuthenticated, (req, res) => {
     const board = req.params.board;
     const threadId = req.params.threadId;
     const options = {

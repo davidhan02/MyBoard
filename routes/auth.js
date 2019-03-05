@@ -4,6 +4,8 @@ const ObjectID      = require('mongodb').ObjectID;
 const LocalStrategy = require('passport-local');
 const bcrypt        = require('bcrypt');
 
+const list = 'MyBoardUsers';
+
 module.exports = function (app, db) {
 
   app.use(session({
@@ -23,7 +25,7 @@ module.exports = function (app, db) {
 
   //access database and deserialize a user here
   passport.deserializeUser((id, done) => {
-      db.collection('users').findOne(
+      db.collection(list).findOne(
           {_id: new ObjectID(id)},
           (err, doc) => {
               done(null, doc);
@@ -35,7 +37,7 @@ module.exports = function (app, db) {
   //tell passport to use an instantiated passport-local object with a few settings defined
   passport.use(new LocalStrategy(function(username, password, done) {
       //tries to find a user in our database with the username entered
-      db.collection('users').findOne({ username: username }, function (err, user) {
+      db.collection(list).findOne({ username: username }, function (err, user) {
         console.log('User '+ username +' attempted to log in.');
         if (err) { return done(err); }
         if (!user) { return done(null, false); }
