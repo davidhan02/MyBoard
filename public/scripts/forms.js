@@ -12,8 +12,7 @@ $(function() {
       data: $(this).serialize(),
       success: function(data) {
         if (data != 'Success') {
-          alert(data);
-          location.reload();
+          $('#headingMessage').html(data);
         } else {
           window.location.href = '/b/' + $('input#login-input[name=username]').val();
         }
@@ -30,8 +29,7 @@ $(function() {
       data: $(this).serialize(),
       success: function(data) {
         if (data != 'Success') {
-          alert(data);
-          location.reload();
+          $('#headingMessage').html(data);
         } else {
           window.location.href = '/b/' + $('input#register-input[name=username]').val();
         }

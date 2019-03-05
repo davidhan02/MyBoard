@@ -15,9 +15,11 @@ module.exports = function(app) {
   app.route('/')
   .get( (req, res) => {
     const board = 'general';
-    let username = 'but log in first';
+    let username = 'Not logged in';
+    let message = '';
     if (req.isAuthenticated()) {
         username = req.user.username;
+        message = req.user.username;
     }
     const options = {
       baseUrl: 'https://nameless-refuge-84035.herokuapp.com',
@@ -30,6 +32,7 @@ module.exports = function(app) {
       res.render('index', {
         posts: JSON.parse(body),
         board: board,
+        message: message,
         username: username
       });
     });
